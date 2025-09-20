@@ -1,27 +1,30 @@
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
-
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
 
-        try {
-            String testText = "src/src/teste.txt";
-            BufferedReader br = new BufferedReader(new FileReader(testText));
-            StringBuilder sb = new StringBuilder();
+        String testText = "BANANA";
+        HuffmanTree arvore = new HuffmanTree(testText);
 
-            String line;
+        System.out.println("--------------------------------------------------");
+        System.out.println("ETAPA 1: Tabela de Frequencia de Caracteres");
+        System.out.println("--------------------------------------------------");
+        HuffmanTree.imprimirFrequencias(testText, arvore.frequencias);
 
-            while((line = br.readLine()) != null) {
-                sb.append(line).append('\n');
-            }
-            HuffmanTree arvore = new HuffmanTree(sb.toString());
-            System.out.println(arvore);
+        System.out.println("\n--------------------------------------------------");
+        System.out.println("ETAPA 2: Min-Heap Inicial (Vetor)");
+        System.out.println("--------------------------------------------------");
+        //MinHeap.imprimirHeapInicial(arvore.frequencias);
 
-        } catch (IOException e) {
-            System.out.println("Erro: Arquivo não encontrado, Certifique-se de que ele se encontra na pasta do arquivo");
-        }
+        System.out.println("--------------------------------------------------");
+        System.out.println("ETAPA 3: Arvore de Huffman");
+        System.out.println("--------------------------------------------------");
+        System.out.println(arvore.toString());
+
+        String[] tabela = Tabela.gerarTabela(arvore.root);
+        System.out.println("--------------------------------------------------");
+        System.out.println("ETAPA 4: Tabela de Codigos de Huffman");
+        System.out.println("--------------------------------------------------");
+        Tabela.imprimirTabela(tabela);
     }
 }

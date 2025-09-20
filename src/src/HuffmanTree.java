@@ -4,6 +4,7 @@ public class HuffmanTree {
     int[] frequencias = new int[256];
     MinHeap heap = new MinHeap();
     No root = null;
+    private int contadorNos = 1;
 
     public HuffmanTree(String text) {
         this.frequencias = calculateFrequencies(unicodeToAscii(text));
@@ -42,6 +43,20 @@ public class HuffmanTree {
         return freq;
     }
 
+    static void imprimirFrequencias(String text, int[] freq){
+         java.util.Set<Character> ordem = new java.util.LinkedHashSet<>();
+    for (char c : text.toCharArray()) {
+        if (freq[c] > 0) {
+            ordem.add(c);
+        }
+    }
+
+    // Agora imprime na ordem em que apareceram no texto
+    for (char c : ordem) {
+        System.out.println("Caractere '" + c + "' (ASCII: " + (int)c + "): " + freq[c]);
+    }
+}
+
     // Metodo de teste, na implementação final só tirar
     @Override
     public String toString() {
@@ -53,14 +68,18 @@ public class HuffmanTree {
     // Metodo de teste, na implementação final só tirar
     private void printTree(No node, String prefix, StringBuilder sb) {
         if (node == null) return;
-
+        if (node.isRoot())
         sb.append(prefix);
+        
         if (node.isLeaf()) {
             sb.append("'").append(node.caractere).append("'")
                     .append(" (freq=").append(node.frequencia).append(")");
+        } else if (node == root){
+            sb.append("(RAIZ, ").append(node.frequencia).append(")");
         } else {
-            sb.append("Nó (freq=").append(node.frequencia).append(")");
+            sb.append("(N").append(contadorNos++).append(", ").append(node.frequencia).append(")");
         }
+        
         sb.append("\n");
 
         printTree(node.esquerda, prefix + "  ", sb);

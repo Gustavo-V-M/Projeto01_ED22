@@ -1,13 +1,14 @@
 public class No implements Comparable<No> {
     char caractere;
     int frequencia;
-    No esquerda, direita;
+    No esquerda, direita, parent = null;
 
     public No(char caractere, int frequencia) {
         this.caractere = caractere;
         this.frequencia = frequencia;
         esquerda = null;
         direita = null;
+        
     }
 
     public No setEsquerda(No esquerda) {
@@ -24,6 +25,9 @@ public class No implements Comparable<No> {
         return (esquerda == null && direita == null);
     }
 
+    public boolean isRoot() {
+        return this.parent == null;
+    }
 
     @Override
     public int compareTo(No o) {
