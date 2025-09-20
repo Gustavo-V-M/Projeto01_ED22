@@ -22,14 +22,15 @@ public class HuffmanTree {
             No a = heap.removeMin();
             No b = heap.removeMin();
 
-            No root = new No('\0', a.frequencia + b.frequencia);
-            root.setEsquerda(a);
-            root.setDireita(b);
+            No interno = new No('\0', a.frequencia + b.frequencia);
+            interno.setEsquerda(a);
+            interno.setDireita(b);
 
-            heap.insert(root);
+            heap.insert(interno);
         }
 
         root = heap.removeMin();
+
     }
 
 
@@ -44,18 +45,19 @@ public class HuffmanTree {
     }
 
     static void imprimirFrequencias(String text, int[] freq){
-         java.util.Set<Character> ordem = new java.util.LinkedHashSet<>();
-    for (char c : text.toCharArray()) {
-        if (freq[c] > 0) {
-            ordem.add(c);
+        java.util.Set<Integer> ordem = new java.util.LinkedHashSet<>();
+        byte[] ascii = text.getBytes(Charset.forName("Windows-1252")); // <- aqui
+
+        for (int i = 0; i < ascii.length; i++) {
+            int b = ascii[i] & 0xFF;
+            if (freq[b] > 0 && b != '\n' && b != 0) ordem.add(b);
+        }
+        for (int b : ordem) {
+            char c = (char) b;
+            System.out.println("Caractere '" + c + "' (ASCII: " + b + "): " + freq[b]);
         }
     }
 
-    // Agora imprime na ordem em que apareceram no texto
-    for (char c : ordem) {
-        System.out.println("Caractere '" + c + "' (ASCII: " + (int)c + "): " + freq[c]);
-    }
-}
 
     // Metodo de teste, na implementação final só tirar
     @Override
@@ -68,23 +70,23 @@ public class HuffmanTree {
     // Metodo de teste, na implementação final só tirar
     private void printTree(No node, String prefix, StringBuilder sb) {
         if (node == null) return;
-        if (node.isRoot())
+
         sb.append(prefix);
-        
+
         if (node.isLeaf()) {
             sb.append("'").append(node.caractere).append("'")
                     .append(" (freq=").append(node.frequencia).append(")");
-        } else if (node == root){
+        } else if (node == root) {
             sb.append("(RAIZ, ").append(node.frequencia).append(")");
         } else {
             sb.append("(N").append(contadorNos++).append(", ").append(node.frequencia).append(")");
         }
-        
         sb.append("\n");
 
         printTree(node.esquerda, prefix + "  ", sb);
-        printTree(node.direita, prefix + "  ", sb);
+        printTree(node.direita,  prefix + "  ", sb);
     }
+
 
     private byte[] unicodeToAscii(String text) {
         Charset ch =  Charset.forName("Windows-1252"); // Windows-1252 é o nome do charset da tabela de ascii extendida (https://www.ascii-code.com/pt)

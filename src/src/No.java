@@ -13,13 +13,16 @@ public class No implements Comparable<No> {
 
     public No setEsquerda(No esquerda) {
         this.esquerda = esquerda;
+        if (esquerda != null) esquerda.parent = this;
         return this;
     }
 
     public No setDireita(No direita) {
         this.direita = direita;
+        if (direita != null) direita.parent = this;
         return this;
     }
+
 
     public boolean isLeaf() {
         return (esquerda == null && direita == null);
