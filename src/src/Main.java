@@ -1,27 +1,94 @@
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.nio.charset.Charset;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
+public class HuffmanTree {
+    int[] frequencias = new int[256];
+    MinHeap heap = new MinHeap();
+    No root = null;
+    private int contadorNos = 1;
 
-        try {
-            String testText = "src/src/teste.txt";
-            BufferedReader br = new BufferedReader(new FileReader(testText));
-            StringBuilder sb = new StringBuilder();
+    public HuffmanTree(String text) {
+        this.frequencias = calculateFrequencies(unicodeToAscii(text));
+        buildTree();
+    }
 
-            String line;
-
-            while((line = br.readLine()) != null) {
-                sb.append(line).append('\n');
+    private void buildTree() {
+        for (int i = 0; i < frequencias.length; i++) {
+            if (frequencias[i] > 0) {
+                heap.insert((char) i, frequencias[i]);
             }
-            HuffmanTree arvore = new HuffmanTree(sb.toString());
-            System.out.println(arvore);
+        }
 
-        } catch (IOException e) {
-            System.out.println("Erro: Arquivo não encontrado, Certifique-se de que ele se encontra na pasta do arquivo");
+        while (heap.getSize() > 1) {
+            No a = heap.removeMin();
+            No b = heap.removeMin();
+
+            No root = new No('\0', a.frequencia + b.frequencia);
+            root.setEsquerda(a);
+            root.setDireita(b);
+
+            heap.insert(root);
+        }
+
+        root = heap.removeMin();
+    }
+
+
+    private int[] calculateFrequencies(byte[] text) {
+        int[] freq = new int[256];
+        for(int i = 0; i < text.length; i++){
+            char c = (char) (text[i] & 0xFF);
+            if(c=='\n' || c=='\0'){ continue; }
+            freq[c]++;
+        }
+        return freq;
+    }
+
+    static void imprimirFrequencias(String text, int[] freq){
+         java.util.Set<Character> ordem = new java.util.LinkedHashSet<>();
+    for (char c : text.toCharArray()) {
+        if (freq[c] > 0) {
+            ordem.add(c);
         }
     }
+
+    // Agora imprime na ordem em que apareceram no texto
+    for (char c : ordem) {
+        System.out.println("Caractere '" + c + "' (ASCII: " + (int)c + "): " + freq[c]);
+    }
+}
+
+    // Metodo de teste, na implementação final só tirar
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        printTree(root, "", sb);
+        return sb.toString();
+    }
+
+    // Metodo de teste, na implementação final só tirar
+    private void printTree(No node, String prefix, StringBuilder sb) {
+        if (node == null) return;
+        if (node.isRoot())
+        sb.append(prefix);
+        
+        if (node.isLeaf()) {
+            sb.append("'").append(node.caractere).append("'")
+                    .append(" (freq=").append(node.frequencia).append(")");
+        } else if (node == root){
+            sb.append("(RAIZ, ").append(node.frequencia).append(")");
+        } else {
+            sb.append("(N").append(contadorNos++).append(", ").append(node.frequencia).append(")");
+        }
+        
+        sb.append("\n");
+
+        printTree(node.esquerda, prefix + "  ", sb);
+        printTree(node.direita, prefix + "  ", sb);
+    }
+
+    private byte[] unicodeToAscii(String text) {
+        Charset ch =  Charset.forName("Windows-1252"); // Windows-1252 é o nome do charset da tabela de ascii extendida (https://www.ascii-code.com/pt)
+        return text.getBytes(ch);
+    }
+
 }
