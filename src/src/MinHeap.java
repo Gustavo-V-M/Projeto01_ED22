@@ -27,8 +27,8 @@ public class MinHeap {
 
     public No removeMin() {
         if (heap.isEmpty()) return null;
-        No min = heap.getFirst();
-        No last = heap.removeLast();
+        No min = heap.get(0);
+        No last = heap.remove(heap.size() - 1);
         if (!heap.isEmpty()) {
             heap.set(0, last);
             heapifyDown(0);
