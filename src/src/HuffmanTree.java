@@ -6,18 +6,26 @@ public class HuffmanTree {
     No root = null;
     private int contadorNos = 1;
 
-    public HuffmanTree(String text) {
-        this.frequencias = calculateFrequencies(unicodeToAscii(text));
-        buildTree();
+    public HuffmanTree(byte[] data) {
+        this.frequencias = calculateFrequencies(data);
     }
 
-    private void buildTree() {
+    public HuffmanTree(String text) {
+        this.frequencias = calculateFrequencies(text.getBytes(Charset.forName("UTF-8")));
+    }
+
+    public void buildInitialHeap() {
         for (int i = 0; i < frequencias.length; i++) {
             if (frequencias[i] > 0) {
                 heap.insert((char) i, frequencias[i]);
             }
         }
+    }
 
+    public void buildTree() {
+        if (heap.getSize() == 0) {
+            buildInitialHeap();
+        }
         while (heap.getSize() > 1) {
             No a = heap.removeMin();
             No b = heap.removeMin();
@@ -30,27 +38,22 @@ public class HuffmanTree {
         }
 
         root = heap.removeMin();
-
     }
 
-
-    private int[] calculateFrequencies(byte[] text) {
+    private int[] calculateFrequencies(byte[] data) {
         int[] freq = new int[256];
-        for(int i = 0; i < text.length; i++){
-            char c = (char) (text[i] & 0xFF);
-            if(c=='\n' || c=='\0'){ continue; }
-            freq[c]++;
+        for (int i = 0; i < data.length; i++) {
+            int b = data[i] & 0xFF;
+            freq[b]++;
         }
         return freq;
     }
 
-    static void imprimirFrequencias(String text, int[] freq){
+    static void imprimirFrequencias(byte[] data, int[] freq) {
         java.util.Set<Integer> ordem = new java.util.LinkedHashSet<>();
-        byte[] ascii = text.getBytes(Charset.forName("Windows-1252")); // <- aqui
-
-        for (int i = 0; i < ascii.length; i++) {
-            int b = ascii[i] & 0xFF;
-            if (freq[b] > 0 && b != '\n' && b != 0) ordem.add(b);
+        for (int i = 0; i < data.length; i++) {
+            int b = data[i] & 0xFF;
+            if (freq[b] > 0) ordem.add(b);
         }
         for (int b : ordem) {
             char c = (char) b;
@@ -58,8 +61,10 @@ public class HuffmanTree {
         }
     }
 
+    public MinHeap getHeap() {
+        return heap;
+    }
 
-    // Metodo de teste, na implementação final só tirar
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -67,7 +72,6 @@ public class HuffmanTree {
         return sb.toString();
     }
 
-    // Metodo de teste, na implementação final só tirar
     private void printTree(No node, String prefix, StringBuilder sb) {
         if (node == null) return;
 
@@ -86,11 +90,4 @@ public class HuffmanTree {
         printTree(node.esquerda, prefix + "  ", sb);
         printTree(node.direita,  prefix + "  ", sb);
     }
-
-
-    private byte[] unicodeToAscii(String text) {
-        Charset ch =  Charset.forName("Windows-1252"); // Windows-1252 é o nome do charset da tabela de ascii extendida (https://www.ascii-code.com/pt)
-        return text.getBytes(ch);
-    }
-
 }

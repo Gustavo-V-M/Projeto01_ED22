@@ -11,7 +11,7 @@ public class BitInputStream implements AutoCloseable {
         this.in = in;
     }
 
-    /** Lê 1 bit. Retorna 0 ou 1; retorna -1 se chegou no fim do stream. */
+    // Lê 1 bit. Retorna 0 ou 1; retorna -1 se chegou no fim do stream.
     public int readBit() throws IOException {
         if (closed) throw new IOException("BitInputStream already closed");
         if (numBitsRemaining == 0) {

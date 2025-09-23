@@ -37,7 +37,6 @@ public class No implements Comparable<No> {
         return this.frequencia - o.frequencia;
     }
 
-    // Metodo de teste, na implementação final só tirar
     @Override
     public String toString() {
         return "No: Caractere: " + caractere + ", Frequencia: " + frequencia;

@@ -25,7 +25,6 @@ public class Descompressor {
                 if (freq[i] > 0) distintos++;
             }
 
-            // Arquivo vazio: nada a fazer
             if (originalBytes == 0) return;
 
             // Caso 1 símbolo: escreve direto sem ler bits
@@ -65,7 +64,6 @@ public class Descompressor {
         }
     }
 
-    /** Constrói a árvore com base nas frequências, usando teu MinHeap (insert/removeMin/getSize). */
     private static No reconstruirArvore(int[] freq) {
         MinHeap heap = new MinHeap();
         for (int i = 0; i < 256; i++) {
@@ -81,7 +79,7 @@ public class Descompressor {
             No pai = new No('\0', a.frequencia + b.frequencia); // nó interno (caractere dummy)
             pai.setEsquerda(a);
             pai.setDireita(b);
-            heap.insert(pai); // usa a sobrecarga insert(No)
+            heap.insert(pai);
         }
         return heap.removeMin();
     }

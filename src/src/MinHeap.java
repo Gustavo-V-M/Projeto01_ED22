@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class MinHeap {
     private ArrayList<No> heap;
 
-
     public MinHeap() {
         heap = new ArrayList<>();
     }
@@ -66,7 +65,6 @@ public class MinHeap {
         heap.set(j, swap);
     }
 
-    // Metodo de teste, na implementação final só tirar
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
