@@ -80,18 +80,14 @@ Para garantir a corretude e a eficiência do sistema desenvolvido, foram realiza
         <img width="964" height="886" alt="Captura de Tela 2025-09-25 às 12 16 37" src="https://github.com/user-attachments/assets/aee47e89-1606-4c0d-b7d8-4653ea956c3f" />
 
   - Descomprimindo o Arquivo Comprimido:
+      - Linha de comando:  
+        <img width="576" height="373" alt="Captura de Tela 2025-09-25 às 12 22 03" src="https://github.com/user-attachments/assets/2472d1e5-574c-4e2e-baa5-533f4cec2ac4" />
+
+      - Resultado da execução:  
+        <img width="578" height="318" alt="Captura de Tela 2025-09-25 às 12 22 06" src="https://github.com/user-attachments/assets/457267cb-e9a0-4fd4-9d35-dae9cb1b7a0a" />
 
 
+# Gráficos
+  Os gráficos apresentados nesta seção têm como objetivo ilustrar os resultados obtidos durante a fase de validação do projeto. Através deles, é possível visualizar de forma mais clara o comportamento do algoritmo de Huffman em diferentes cenários, tanto em relação ao tempo de execução quanto à taxa de compressão. Para a análise de desempenho, os gráficos mostram a relação entre o tamanho dos arquivos de entrada e o tempo gasto nos processos de compressão e descompressão, permitindo verificar se o crescimento acompanha a complexidade esperada do algoritmo. Já para a análise de espaço, os gráficos comparam as taxas de compressão obtidas em diferentes tipos de arquivos (texto comum, código-fonte, arquivos repetitivos e aleatórios), destacando em quais situações o algoritmo é mais eficiente. Dessa forma, os gráficos complementam as tabelas e reforçam a interpretação dos resultados experimentais.
 
-
-
-
-
-
-
-
-
-
-
-
-
+- 
